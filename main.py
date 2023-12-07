@@ -22,6 +22,7 @@ game_outcome = 0# -1 is loss & 1 is win
 level_started = False
 last_enemy_spawn = pg.time.get_ticks()
 placing_turrets = False
+placing_turrets1 = False
 selected_turret = None
 
 #load images
@@ -32,6 +33,10 @@ turret_spritesheets = []
 for x in range(1, c.TURRET_LEVELS + 1):
   turret_sheet = pg.image.load(f'assets/images/turrets/turret_{x}.png').convert_alpha()
   turret_spritesheets.append(turret_sheet)
+turret_spritesheets1 = []
+for x in range(1, c.TURRET_LEVELS + 1):
+  turret_sheet1 = pg.image.load(f'assets/images/turrets/friction_{x}.png').convert_alpha()
+  turret_spritesheets1.append(turret_sheet1)
 #individual turret image for mouse cursor
 cursor_turret = pg.image.load('assets/images/turrets/cursor_turret.png').convert_alpha()
 frictionman = pg.image.load('assets/images/turrets/frictionman.png').convert_alpha()
@@ -100,6 +105,25 @@ def create_turret(mouse_pos):
     #if it is a free space then create turret
     if space_is_free == True:
       new_turret = Turret(turret_spritesheets, mouse_tile_x, mouse_tile_y, shot_fx)
+      turret_group.add(new_turret)
+      #deduct cost of turret
+      world.money -= c.BUY_COST
+
+def create_turret1(mouse_pos):
+  mouse_tile_x = mouse_pos[0] // c.TILE_SIZE
+  mouse_tile_y = mouse_pos[1] // c.TILE_SIZE
+  #calculate the sequential number of the tile
+  mouse_tile_num = (mouse_tile_y * c.COLS) + mouse_tile_x
+  #check if that tile is grass
+  if world.tile_map[mouse_tile_num] == 7:
+    #check that there isn't already a turret there
+    space_is_free = True
+    for turret in turret_group:
+      if (mouse_tile_x, mouse_tile_y) == (turret.tile_x, turret.tile_y):
+        space_is_free = False
+    #if it is a free space then create turret
+    if space_is_free == True:
+      new_turret = Turret(turret_spritesheets1, mouse_tile_x, mouse_tile_y, shot_fx)
       turret_group.add(new_turret)
       #deduct cost of turret
       world.money -= c.BUY_COST
@@ -211,7 +235,7 @@ while run:
     if turret_button.draw(screen):
       placing_turrets = True
     if frictionmanbutton.draw(screen):
-        placing_turrets = True
+        placing_turrets1 = True
     #if placing turrets then show the cancel button as well
     if placing_turrets == True:
       #show cursor turret
@@ -222,6 +246,15 @@ while run:
         screen.blit(cursor_turret, cursor_rect)
       if cancel_button.draw(screen):
         placing_turrets = False
+    if placing_turrets1 == True:
+      #show cursor turret
+      cursor_rect = frictionman.get_rect()
+      cursor_pos = pg.mouse.get_pos()
+      cursor_rect.center = cursor_pos
+      if cursor_pos[0] <= c.SCREEN_WIDTH:
+        screen.blit(frictionman, cursor_rect)
+      if cancel_button.draw(screen):
+        placing_turrets1 = False
     #if a turret is selected then show the upgrade button
     if selected_turret:
       #if a turret can be upgraded then show the upgrade button
@@ -270,6 +303,12 @@ while run:
           #check if there is enough money for a turret
           if world.money >= c.BUY_COST:
             create_turret(mouse_pos)
+        else:
+          selected_turret = select_turret(mouse_pos)
+        if placing_turrets1 == True:
+          #check if there is enough money for a turret
+          if world.money >= c.BUY_COST:
+            create_turret1(mouse_pos)
         else:
           selected_turret = select_turret(mouse_pos)
 
