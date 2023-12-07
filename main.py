@@ -35,7 +35,6 @@ for x in range(1, c.TURRET_LEVELS + 1):
 #individual turret image for mouse cursor
 cursor_turret = pg.image.load('assets/images/turrets/cursor_turret.png').convert_alpha()
 frictionman = pg.image.load('assets/images/turrets/frictionman.png').convert_alpha()
-frictionmanbutton = pg.image.load('assets/images/button/frictionman.png').convert_alpha()
 #enemies
 enemy_images = {
   "weak": pg.image.load('assets/images/enemies/enemy_1.png').convert_alpha(),
@@ -45,7 +44,7 @@ enemy_images = {
 }
 #buttons
 buy_turret_image = pg.image.load('assets/images/buttons/buy_turret.png').convert_alpha()
-frictionman = pg.image.load('assets/images/buttons/frictionman.png').convert_alpha()
+frictionmanbutton = pg.image.load('assets/images/buttons/frictionmanbutton.png').convert_alpha()
 cancel_image = pg.image.load('assets/images/buttons/cancel.png').convert_alpha()
 upgrade_turret_image = pg.image.load('assets/images/buttons/upgrade_turret.png').convert_alpha()
 begin_image = pg.image.load('assets/images/buttons/begin.png').convert_alpha()
@@ -127,7 +126,7 @@ turret_group = pg.sprite.Group()
 
 #create buttons
 turret_button = Button(c.SCREEN_WIDTH + 30, 120, buy_turret_image, True)
-frictionman_button = Button(c.SCREEN_WIDTH + 30, 150, frictionmanbutton, True)
+frictionmanbutton = Button(c.SCREEN_WIDTH + 30, 150, frictionmanbutton, True)
 cancel_button = Button(c.SCREEN_WIDTH + 50, 180, cancel_image, True)
 upgrade_button = Button(c.SCREEN_WIDTH + 5, 180, upgrade_turret_image, True)
 begin_button = Button(c.SCREEN_WIDTH + 60, 300, begin_image, True)
@@ -211,6 +210,8 @@ while run:
     screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 130))
     if turret_button.draw(screen):
       placing_turrets = True
+    if frictionmanbutton.draw(screen):
+        placing_turrets = True
     #if placing turrets then show the cancel button as well
     if placing_turrets == True:
       #show cursor turret
