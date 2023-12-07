@@ -11,8 +11,11 @@ class Enemy(pg.sprite.Sprite):
     self.pos = Vector2(self.waypoints[0])
     self.target_waypoint = 1
     self.health = ENEMY_DATA.get(enemy_type)["health"]
-    self.speed = ENEMY_DATA.get(enemy_type)["speed"]
+    self.force = ENEMY_DATA.get(enemy_type)["speed"]
+    self.mass = ENEMY_DATA.get(enemy_type)["mass"]
+    self.speed = 0
     self.angle = 0
+    self.friction = 0
     self.original_image = images.get(enemy_type)
     self.image = pg.transform.rotate(self.original_image, self.angle)
     self.rect = self.image.get_rect()
@@ -36,6 +39,11 @@ class Enemy(pg.sprite.Sprite):
 
     #calculate distance to target
     dist = self.movement.length()
+
+    #calculate speed of the enemy
+    f = self.friction * self.mass * 9.8
+    self.speed = (self.force - f) / self.mass
+
     #check if remaining distance is greater than the enemy speed
     if dist >= (self.speed * world.game_speed):
       self.pos += self.movement.normalize() * (self.speed * world.game_speed)
