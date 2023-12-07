@@ -1,6 +1,7 @@
 import pygame as pg
 from pygame.math import Vector2
 import math
+import time
 import constants as c
 from enemy_data import ENEMY_DATA
 
@@ -16,6 +17,8 @@ class Enemy(pg.sprite.Sprite):
     self.speed = 0
     self.angle = 0
     self.friction = 0
+    self.justFrictioned = False
+    self.start_time = time.time()
     self.original_image = images.get(enemy_type)
     self.image = pg.transform.rotate(self.original_image, self.angle)
     self.rect = self.image.get_rect()
@@ -43,6 +46,13 @@ class Enemy(pg.sprite.Sprite):
     #calculate speed of the enemy
     f = self.friction * self.mass * 9.8
     self.speed = (self.force - f) / self.mass
+    if (self.friction > 0 and self.justFrictioned):
+      self.start_time = time.time()
+      self.justFrictioned = False
+
+    current_time = time.time()
+    if ((current_time - self.start_time) > 10):
+      self.friction = 0
 
     #check if remaining distance is greater than the enemy speed
     if dist >= (self.speed * world.game_speed):
