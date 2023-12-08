@@ -49,7 +49,7 @@ enemy_images = {
 }
 #buttons
 buy_turret_image = pg.image.load('assets/images/buttons/buy_turret.png').convert_alpha()
-frictionmanbutton = pg.image.load('assets/images/buttons/frictionmanbutton.png').convert_alpha()
+frictionmanbutton = pg.image.load('assets/images/buttons/frictionman.png').convert_alpha()
 cancel_image = pg.image.load('assets/images/buttons/cancel.png').convert_alpha()
 upgrade_turret_image = pg.image.load('assets/images/buttons/upgrade_turret.png').convert_alpha()
 begin_image = pg.image.load('assets/images/buttons/begin.png').convert_alpha()
@@ -81,7 +81,7 @@ def display_data():
   #draw panel
   pg.draw.rect(screen, "maroon", (c.SCREEN_WIDTH, 0, c.SIDE_PANEL, c.SCREEN_HEIGHT))
   pg.draw.rect(screen, "grey0", (c.SCREEN_WIDTH, 0, c.SIDE_PANEL, 400), 2)
-  screen.blit(logo_image, (c.SCREEN_WIDTH, 400))
+  #screen.blit(logo_image, (c.SCREEN_WIDTH, 400))
   #display data
   draw_text("LEVEL: " + str(world.level), text_font, "grey100", c.SCREEN_WIDTH + 10, 10)
   screen.blit(heart_image, (c.SCREEN_WIDTH + 10, 35))
@@ -150,9 +150,9 @@ turret_group = pg.sprite.Group()
 
 #create buttons
 turret_button = Button(c.SCREEN_WIDTH + 30, 120, buy_turret_image, True)
-frictionmanbutton = Button(c.SCREEN_WIDTH + 30, 150, frictionmanbutton, True)
-cancel_button = Button(c.SCREEN_WIDTH + 50, 180, cancel_image, True)
-upgrade_button = Button(c.SCREEN_WIDTH + 5, 180, upgrade_turret_image, True)
+frictionmanbutton = Button(c.SCREEN_WIDTH + 30, 175, frictionmanbutton, True)
+cancel_button = Button(c.SCREEN_WIDTH + 50, 425, cancel_image, True)
+upgrade_button = Button(c.SCREEN_WIDTH + 5, 345, upgrade_turret_image, True)
 begin_button = Button(c.SCREEN_WIDTH + 120, 40, begin_image, True)
 restart_button = Button(310, 300, restart_image, True)
 fast_forward_button = Button(c.SCREEN_WIDTH + 115, 40, fast_forward_image, False)
@@ -230,8 +230,17 @@ while run:
     #draw buttons
     #button for placing turrets
     #for the "turret button" show cost of turret and draw the button
+    #Prices Below
+    #Turret
     draw_text(str(c.BUY_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 135)
     screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 130))
+    #Frictionman
+    draw_text(str("275"), text_font, "grey100", c.SCREEN_WIDTH + 215, 192)
+    screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 187))
+    #VectorBallThing
+    draw_text(str("400"), text_font, "grey100", c.SCREEN_WIDTH + 215, 250)
+    screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 250))
+
     if turret_button.draw(screen):
       placing_turrets = True
     if frictionmanbutton.draw(screen):
@@ -260,8 +269,8 @@ while run:
       #if a turret can be upgraded then show the upgrade button
       if selected_turret.upgrade_level < c.TURRET_LEVELS:
         #show cost of upgrade and draw the button
-        draw_text(str(c.UPGRADE_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 195)
-        screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 190))
+        draw_text(str(c.UPGRADE_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 360)
+        screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 357))
         if upgrade_button.draw(screen):
           if world.money >= c.UPGRADE_COST:
             selected_turret.upgrade()
