@@ -153,9 +153,9 @@ turret_button = Button(c.SCREEN_WIDTH + 30, 120, buy_turret_image, True)
 frictionmanbutton = Button(c.SCREEN_WIDTH + 30, 150, frictionmanbutton, True)
 cancel_button = Button(c.SCREEN_WIDTH + 50, 180, cancel_image, True)
 upgrade_button = Button(c.SCREEN_WIDTH + 5, 180, upgrade_turret_image, True)
-begin_button = Button(c.SCREEN_WIDTH + 60, 300, begin_image, True)
+begin_button = Button(c.SCREEN_WIDTH + 120, 40, begin_image, True)
 restart_button = Button(310, 300, restart_image, True)
-fast_forward_button = Button(c.SCREEN_WIDTH + 50, 300, fast_forward_image, False)
+fast_forward_button = Button(c.SCREEN_WIDTH + 115, 40, fast_forward_image, False)
 
 #game loop
 run = True
