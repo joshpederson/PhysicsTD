@@ -65,6 +65,10 @@ logo_image = pg.image.load("assets/images/gui/logo.png").convert_alpha()
 shot_fx = pg.mixer.Sound('assets/audio/shot.wav')
 shot_fx.set_volume(0.5)
 
+fshot_fx = pg.mixer.Sound('assets/audio/friction.wav')
+fshot_fx.set_volume(1)
+
+
 #load json data for level
 with open('levels/level.tmj') as file:
   world_data = json.load(file)
@@ -124,7 +128,7 @@ def create_turret1(mouse_pos):
         space_is_free = False
     #if it is a free space then create turret
     if space_is_free == True:
-      new_turret = Fturret(turret_spritesheets1, mouse_tile_x, mouse_tile_y, shot_fx)
+      new_turret = Fturret(turret_spritesheets1, mouse_tile_x, mouse_tile_y, fshot_fx)
       turret_group.add(new_turret)
       #deduct cost of turret
       world.money -= c.BUY_COST

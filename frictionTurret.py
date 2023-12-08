@@ -74,8 +74,9 @@ class Fturret(pg.sprite.Sprite):
         if dist < self.range:
           self.target = enemy
           self.angle = math.degrees(math.atan2(-y_dist, x_dist))
-          #damage enemy
-          self.target.health -= c.DAMAGE
+          #frictionize enemy
+          self.target.friction = c.FRICTION
+          self.target.justFrictioned = True
           #play sound effect
           self.shot_fx.play()
           break
