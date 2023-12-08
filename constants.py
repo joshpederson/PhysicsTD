@@ -21,3 +21,9 @@ LEVEL_COMPLETE_REWARD = 100
 ANIMATION_STEPS = 8
 ANIMATION_DELAY = 15
 DAMAGE = 5
+
+#frictionman constants
+FBUY_COST = 280
+
+#Vectorball Constant
+VBUY_COST = 400

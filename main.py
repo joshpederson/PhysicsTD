@@ -235,10 +235,10 @@ while run:
     draw_text(str(c.BUY_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 135)
     screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 130))
     #Frictionman
-    draw_text(str("275"), text_font, "grey100", c.SCREEN_WIDTH + 215, 192)
+    draw_text(str(c.FBUY_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 192)
     screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 187))
-    #VectorBallThing
-    draw_text(str("400"), text_font, "grey100", c.SCREEN_WIDTH + 215, 250)
+    #VectorBall
+    draw_text(str(c.VBUY_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 250)
     screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 250))
 
     if turret_button.draw(screen):
