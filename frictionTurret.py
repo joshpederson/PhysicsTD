@@ -2,7 +2,7 @@ import pygame as pg
 import math
 import constants as c
 from turret_data import TURRET_DATA
-class Turret(pg.sprite.Sprite):
+class Fturret(pg.sprite.Sprite):
   def __init__(self, sprite_sheets, tile_x, tile_y, shot_fx):
     pg.sprite.Sprite.__init__(self)
     self.upgrade_level = 1
@@ -47,7 +47,7 @@ class Turret(pg.sprite.Sprite):
     #extract images from spritesheet
     size = sprite_sheet.get_height()
     animation_list = []
-    for x in range(c.ANIMATION_STEPS):
+    for x in range(c.ANIMATION_STEPS_FM):
       temp_img = sprite_sheet.subsurface(x * size, 0, size, size)
       animation_list.append(temp_img)
     return animation_list

@@ -3,6 +3,7 @@ import json
 from enemy import Enemy
 from world import World
 from turret import Turret
+from frictionTurret import Fturret
 from button import Button
 import constants as c
 
@@ -123,7 +124,7 @@ def create_turret1(mouse_pos):
         space_is_free = False
     #if it is a free space then create turret
     if space_is_free == True:
-      new_turret = Turret(turret_spritesheets1, mouse_tile_x, mouse_tile_y, shot_fx)
+      new_turret = Fturret(turret_spritesheets1, mouse_tile_x, mouse_tile_y, shot_fx)
       turret_group.add(new_turret)
       #deduct cost of turret
       world.money -= c.BUY_COST
