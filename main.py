@@ -4,6 +4,7 @@ from enemy import Enemy
 from world import World
 from turret import Turret
 from frictionTurret import Fturret
+from vectorTurret import Vturret
 from button import Button
 import constants as c
 
@@ -24,6 +25,7 @@ level_started = False
 last_enemy_spawn = pg.time.get_ticks()
 placing_turrets = False
 placing_friction = False
+placing_vector = False
 selected_turret = None
 
 #load images
@@ -38,9 +40,14 @@ friction_spritesheets = []
 for x in range(1, c.TURRET_LEVELS + 1):
   friction_sheet = pg.image.load(f'assets/images/turrets/friction_{x}.png').convert_alpha()
   friction_spritesheets.append(friction_sheet)
+vector_spritesheets = []
+for x in range(1, c.TURRET_LEVELS + 1):
+  vector_sheet = pg.image.load(f'assets/images/turrets/vectorball.png').convert_alpha()
+  vector_spritesheets.append(vector_sheet)
 #individual turret image for mouse cursor
 cursor_turret = pg.image.load('assets/images/turrets/cursor_turret.png').convert_alpha()
 frictionman = pg.image.load('assets/images/turrets/frictionman.png').convert_alpha()
+vectorball = pg.image.load('assets/images/turrets/vectorball.png').convert_alpha()
 #enemies
 enemy_images = {
   "weak": pg.image.load('assets/images/enemies/enemy_1.png').convert_alpha(),
@@ -51,6 +58,7 @@ enemy_images = {
 #buttons
 buy_turret_image = pg.image.load('assets/images/buttons/buy_turret.png').convert_alpha()
 frictionmanbutton = pg.image.load('assets/images/buttons/frictionman.png').convert_alpha()
+vectorballbutton = pg.image.load('assets/images/buttons/vectorball.png').convert_alpha()
 cancel_image = pg.image.load('assets/images/buttons/cancel.png').convert_alpha()
 upgrade_turret_image = pg.image.load('assets/images/buttons/upgrade_turret.png').convert_alpha()
 begin_image = pg.image.load('assets/images/buttons/begin.png').convert_alpha()
@@ -132,7 +140,24 @@ def create_friction(mouse_pos):
       turret_group.add(new_turret)
       #deduct cost of turret
       world.money -= c.BUY_COST
-
+def create_vector(mouse_pos):
+  mouse_tile_x = mouse_pos[0] // c.TILE_SIZE
+  mouse_tile_y = mouse_pos[1] // c.TILE_SIZE
+  #calculate the sequential number of the tile
+  mouse_tile_num = (mouse_tile_y * c.COLS) + mouse_tile_x
+  #check if that tile is grass
+  if world.tile_map[mouse_tile_num] == 7:
+    #check that there isn't already a turret there
+    space_is_free = True
+    for turret in turret_group:
+      if (mouse_tile_x, mouse_tile_y) == (turret.tile_x, turret.tile_y):
+        space_is_free = False
+    #if it is a free space then create turret
+    if space_is_free == True:
+      new_turret = Vturret(vector_spritesheets, mouse_tile_x, mouse_tile_y, fshot_fx)
+      turret_group.add(new_turret)
+      #deduct cost of turret
+      world.money -= c.BUY_COST
 def select_turret(mouse_pos):
   mouse_tile_x = mouse_pos[0] // c.TILE_SIZE
   mouse_tile_y = mouse_pos[1] // c.TILE_SIZE
@@ -156,6 +181,7 @@ turret_group = pg.sprite.Group()
 #create buttons
 turret_button = Button(c.SCREEN_WIDTH + 30, 120, buy_turret_image, True)
 frictionmanbutton = Button(c.SCREEN_WIDTH + 30, 175, frictionmanbutton, True)
+vectorballbutton = Button(c.SCREEN_WIDTH + 30, 240, vectorballbutton, True)
 cancel_button = Button(c.SCREEN_WIDTH + 50, 425, cancel_image, True)
 upgrade_button = Button(c.SCREEN_WIDTH + 5, 345, upgrade_turret_image, True)
 begin_button = Button(c.SCREEN_WIDTH + 120, 40, begin_image, True)
@@ -250,6 +276,8 @@ while run:
       placing_turrets = True
     if frictionmanbutton.draw(screen):
         placing_friction = True
+    if vectorballbutton.draw(screen):
+        placing_vector = True
     #if placing turrets then show the cancel button as well
     if placing_turrets == True:
       #show cursor turret
@@ -269,6 +297,15 @@ while run:
         screen.blit(frictionman, cursor_rect)
       if cancel_button.draw(screen):
         placing_friction = False
+    if placing_vector == True:
+      #show cursor turret
+      cursor_rect = vectorball.get_rect()
+      cursor_pos = pg.mouse.get_pos()
+      cursor_rect.center = cursor_pos
+      if cursor_pos[0] <= c.SCREEN_WIDTH:
+        screen.blit(vectorball, cursor_rect)
+      if cancel_button.draw(screen):
+        placing_vector = False
     #if a turret is selected then show the upgrade button
     if selected_turret:
       #if a turret can be upgraded then show the upgrade button
@@ -323,6 +360,12 @@ while run:
           #check if there is enough money for a turret
           if world.money >= c.BUY_COST:
             create_friction(mouse_pos)
+        else:
+          selected_turret = select_turret(mouse_pos)
+        if placing_vector == True:
+          #check if there is enough money for a turret
+          if world.money >= c.BUY_COST:
+            create_vector(mouse_pos)
         else:
           selected_turret = select_turret(mouse_pos)
 
