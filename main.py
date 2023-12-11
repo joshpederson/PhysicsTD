@@ -76,6 +76,8 @@ shot_fx.set_volume(0.5)
 fshot_fx = pg.mixer.Sound('assets/audio/friction.wav')
 fshot_fx.set_volume(1)
 
+vshot_fx = pg.mixer.Sound('assets/audio/vector.wav')
+vshot_fx.set_volume(1)
 
 #load json data for level
 with open('levels/level.tmj') as file:
@@ -154,7 +156,7 @@ def create_vector(mouse_pos):
         space_is_free = False
     #if it is a free space then create turret
     if space_is_free == True:
-      new_turret = Vturret(vector_spritesheets, mouse_tile_x, mouse_tile_y, fshot_fx)
+      new_turret = Vturret(vector_spritesheets, mouse_tile_x, mouse_tile_y, vshot_fx)
       turret_group.add(new_turret)
       #deduct cost of turret
       world.money -= c.VBUY_COST
