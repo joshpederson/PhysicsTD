@@ -1,16 +1,20 @@
+import random
+
 import pygame as pg
 import math
 import constants as c
 from turret_data import TURRET_DATA
-class Vturret(pg.sprite.Sprite):
+class Vturret(pg.sprite.Sprite, ):
   def __init__(self, sprite_sheets, tile_x, tile_y, shot_fx):
     pg.sprite.Sprite.__init__(self)
-    self.upgrade_level = 1
-    self.range = TURRET_DATA[self.upgrade_level - 1].get("range")
+    self.upgrade_level = 4
+    self.range = 45
     self.cooldown = TURRET_DATA[self.upgrade_level - 1].get("cooldown")
     self.last_shot = pg.time.get_ticks()
     self.selected = False
     self.target = None
+    self.speed_x = random.uniform(-2, 2) + 1
+    self.speed_y = random.uniform(-2, 2) + 1
 
     #position variables
     self.tile_x = tile_x
@@ -53,19 +57,28 @@ class Vturret(pg.sprite.Sprite):
     return animation_list
 
   def update(self, enemy_group, world):
-    #if target picked, play firing animation
-    if self.target:
-      self.play_animation()
-    else:
-      #search for new target once turret has cooled down
-      if pg.time.get_ticks() - self.last_shot > (self.cooldown / world.game_speed):
-        self.pick_target(enemy_group)
+    #move ball
+    self.moveBall()
+    #kill enemies in range
+    self.pick_target(enemy_group)
+
+  def moveBall(self):
+    if (self.x > c.SCREEN_WIDTH):
+      self.speed_x = -self.speed_x
+    if (self.x < 0):
+      self.speed_x = -self.speed_x
+    if (self.y > c.SCREEN_HEIGHT):
+      self.speed_y = -self.speed_y
+    if (self.y < 0):
+      self.speed_y = -self.speed_y
+    self.x += self.speed_x
+    self.y += self.speed_y
 
   def pick_target(self, enemy_group):
     #find an enemy to target
     x_dist = 0
     y_dist = 0
-    #check distance to each enemy to see if it is in range
+    #check if on enemy
     for enemy in enemy_group:
       if enemy.health > 0:
         x_dist = enemy.pos[0] - self.x
@@ -73,10 +86,8 @@ class Vturret(pg.sprite.Sprite):
         dist = math.sqrt(x_dist ** 2 + y_dist ** 2)
         if dist < self.range:
           self.target = enemy
-          self.angle = math.degrees(math.atan2(-y_dist, x_dist))
-          #frictionize enemy
-          self.target.friction = c.FRICTION
-          self.target.justFrictioned = True
+          #destroy enemy
+          self.target.health = 0
           #play sound effect
           self.shot_fx.play()
           break

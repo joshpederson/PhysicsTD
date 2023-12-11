@@ -139,7 +139,7 @@ def create_friction(mouse_pos):
       new_turret = Fturret(friction_spritesheets, mouse_tile_x, mouse_tile_y, fshot_fx)
       turret_group.add(new_turret)
       #deduct cost of turret
-      world.money -= c.BUY_COST
+      world.money -= c.FBUY_COST
 def create_vector(mouse_pos):
   mouse_tile_x = mouse_pos[0] // c.TILE_SIZE
   mouse_tile_y = mouse_pos[1] // c.TILE_SIZE
@@ -157,7 +157,7 @@ def create_vector(mouse_pos):
       new_turret = Vturret(vector_spritesheets, mouse_tile_x, mouse_tile_y, fshot_fx)
       turret_group.add(new_turret)
       #deduct cost of turret
-      world.money -= c.BUY_COST
+      world.money -= c.VBUY_COST
 def select_turret(mouse_pos):
   mouse_tile_x = mouse_pos[0] // c.TILE_SIZE
   mouse_tile_y = mouse_pos[1] // c.TILE_SIZE
@@ -358,13 +358,13 @@ while run:
           selected_turret = select_turret(mouse_pos)
         if placing_friction == True:
           #check if there is enough money for a turret
-          if world.money >= c.BUY_COST:
+          if world.money >= c.FBUY_COST:
             create_friction(mouse_pos)
         else:
           selected_turret = select_turret(mouse_pos)
         if placing_vector == True:
           #check if there is enough money for a turret
-          if world.money >= c.BUY_COST:
+          if world.money >= c.VBUY_COST:
             create_vector(mouse_pos)
         else:
           selected_turret = select_turret(mouse_pos)
