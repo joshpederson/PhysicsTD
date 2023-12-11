@@ -90,6 +90,9 @@ class Vturret(pg.sprite.Sprite, ):
           self.target.health = 0
           #play sound effect
           self.shot_fx.play()
+          #hit enemy
+          self.speed_x = -self.speed_x
+          self.speed_y = -self.speed_y
           break
 
   def play_animation(self):
