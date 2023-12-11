@@ -181,7 +181,7 @@ turret_group = pg.sprite.Group()
 #create buttons
 turret_button = Button(c.SCREEN_WIDTH + 30, 120, buy_turret_image, True)
 frictionmanbutton = Button(c.SCREEN_WIDTH + 30, 175, frictionmanbutton, True)
-vectorballbutton = Button(c.SCREEN_WIDTH + 30, 240, vectorballbutton, True)
+vectorballbutton = Button(c.SCREEN_WIDTH + 30, 230, vectorballbutton, True)
 cancel_button = Button(c.SCREEN_WIDTH + 50, 425, cancel_image, True)
 upgrade_button = Button(c.SCREEN_WIDTH + 5, 345, upgrade_turret_image, True)
 begin_button = Button(c.SCREEN_WIDTH + 120, 40, begin_image, True)
@@ -269,8 +269,8 @@ while run:
     draw_text(str(c.FBUY_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 192)
     screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 187))
     #VectorBall
-    draw_text(str(c.VBUY_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 250)
-    screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 250))
+    draw_text(str(c.VBUY_COST), text_font, "grey100", c.SCREEN_WIDTH + 215, 245)
+    screen.blit(coin_image, (c.SCREEN_WIDTH + 260, 240))
 
     if turret_button.draw(screen):
       placing_turrets = True
