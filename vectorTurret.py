@@ -8,7 +8,7 @@ class Vturret(pg.sprite.Sprite, ):
   def __init__(self, sprite_sheets, tile_x, tile_y, shot_fx):
     pg.sprite.Sprite.__init__(self)
     self.upgrade_level = 4
-    self.range = 45
+    self.range = 48
     self.cooldown = TURRET_DATA[self.upgrade_level - 1].get("cooldown")
     self.last_shot = pg.time.get_ticks()
     self.selected = False
@@ -63,13 +63,13 @@ class Vturret(pg.sprite.Sprite, ):
     self.pick_target(enemy_group)
 
   def moveBall(self):
-    if (self.x > c.SCREEN_WIDTH):
+    if (self.x + 48 > c.SCREEN_WIDTH):
       self.speed_x = -self.speed_x
-    if (self.x < 0):
+    if (self.x - 48 < 0):
       self.speed_x = -self.speed_x
-    if (self.y > c.SCREEN_HEIGHT):
+    if (self.y + 48 > c.SCREEN_HEIGHT):
       self.speed_y = -self.speed_y
-    if (self.y < 0):
+    if (self.y - 48 < 0):
       self.speed_y = -self.speed_y
     self.x += self.speed_x
     self.y += self.speed_y
